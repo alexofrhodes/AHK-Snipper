@@ -68,8 +68,9 @@ OpenFolder(folderPath, *){
 
 SaveSelection(folderPath, *) {
     tmp := A_Clipboard
+	A_Clipboard := ""
     Send("{Ctrl down}c{Ctrl up}")
-    Sleep(50)
+    Sleep(100)
     text := "`n" A_Clipboard
     ib := InputBox("(filename.extension)", "save as", ,A_Now ".txt" )
 

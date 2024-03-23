@@ -70,20 +70,21 @@ Main(){
 }
 
 theHandlerFunction(filePath, *) {
-	tmp := A_Clipboard
-	A_Clipboard := ""
+
 	if GetKeyState("Ctrl"){
 		Run 'edit '  filePath
 	}else if GetKeyState("Shift"){
 		Send("{Ctrl down}c{Ctrl up}")
-		Sleep(50)
+		Sleep(100)
 		text := "`n" A_Clipboard
 		FileAppend(text, filePath)
 	}else{
-		A_Clipboard := FileRead(filePath)
+		text := FileRead(filePath)
+		A_Clipboard := text
+		Sleep(100)
 		Send("{Ctrl down}v{Ctrl up}")			
 	}
-	A_Clipboard := tmp
+
 }
 
 DoNothing(*){
