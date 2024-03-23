@@ -1,3 +1,5 @@
+ 
+
 #SingleInstance, Force
 SetKeyDelay, 50
 
@@ -76,7 +78,7 @@ CreateGui(){
     Gui, Add, CheckBox, ys+5  vChAskFileName , Ask
 
 
-    Gui, Add, Text    , section xm w400 0x10  ;Horizontal Line > Etched Gray
+    Gui, Add, Text    , section xm w400 h1 0x10  ;Horizontal Line > Etched Gray
 
 
     Gui, Add, Button  , xm ys+10 section gSaveScript, Save
@@ -86,10 +88,10 @@ CreateGui(){
     Gui, Add, Radio   , ys vOptOverwrite            , Overwrite
 
 
-    Gui, Add, Text    , section xm w400 0x10  ;Horizontal Line > Etched Gray
+    Gui, Add, Text    , section xm h1 w400 0x10  ;Horizontal Line > Etched Gray
 
-
-    Gui, Add, CheckBox, xm+50 ys+10 section  vChCaptureURL ,Capture URL
+    gui, Add, CheckBox, xm vChIsBrowser section, Source is browser
+    Gui, Add, CheckBox, xm section  vChCaptureURL, Capture Source
 
     gui, add, Text    , ys, Prefix
     Gui, Add, Edit    , ys vEditPrefixURL -wrap -wanttab -WantReturn ys-3 h20 w60 section
@@ -97,7 +99,7 @@ CreateGui(){
     gui, add, Text    , ys+3, Sufix
     Gui, Add, Edit    , ys vEditSufixURL -wrap -wanttab -WantReturn h20 w60 section
 
-    Gui, Add, Text, section xm w400 0x10  ;Horizontal Line > Etched Gray
+    Gui, Add, Text, section xm w400 h1 0x10  ;Horizontal Line > Etched Gray
     ; Gui, Add, Text, x5 y5 h150 0x11  ;Vertical Line > Etched Gray
     ; Gui, Add, Text, x5 y155 w150 h1 0x7  ;Horizontal Line > Black
     ; Gui, Add, Text, x155 y5 w1 h150 0x7  ;Vertical Line > Black
@@ -280,10 +282,15 @@ SaveScript(){
     textToSave := Clipboard
     Clipboard := savedClipboard
 
-    IfWinActive, %ModernBrowsers% ahk_exe chrome.exe ; Add your browser's executable name
-    {        
+
+    If (ChIsBrowser = 1)
+    {
         sURL := GetActiveBrowserURL()
-    }else{
+        If (sURL = "")
+            sURL := "The URL couldn't be determined (" sClass ")"
+    }
+    Else
+    {
         WinGetTitle, sURL, A
     }
 
