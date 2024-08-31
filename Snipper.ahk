@@ -1,12 +1,12 @@
 #SingleInstance Force
-#Include FolderStructure.ahk
 
 global MyMenu
 global BaseFolder := A_ScriptDir . "\Snippets"
 global extensions := ["txt"]
 
-#Include customTray.ahk
+#Include includes\customTray.ahk
 
+#Include includes/FolderStructure.ahk
 Tray := A_TrayMenu
 Tray.Add()  ; Creates a separator line.
 for k,v in ["CTRL x2`tShow Menu",
@@ -60,11 +60,7 @@ Main(){
 	global
 	try	
 		myMenu.Delete
-	myMenu:= Menu()
-	; MyMenu.Add("Cancel", DoNothing)
-	; MyMenu.SetIcon("Cancel","icons\cancel.ico")
-	; MyMenu.Add
-	
+	myMenu:= Menu()	
 	AddFolderStructureToMenu(MyMenu, BaseFolder, extensions, "theHandlerFunction")																				
 	myMenu.Show()
 }
@@ -87,7 +83,4 @@ theHandlerFunction(filePath, *) {
 
 }
 
-DoNothing(*){
-	return
-}
 

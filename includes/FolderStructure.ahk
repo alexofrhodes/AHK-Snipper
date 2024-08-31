@@ -18,6 +18,9 @@ AddFolderStructureToMenu(menuObj, FolderPath, extensions, HandlerFunctionName) {
     menuObj.Add("Open Folder", (*) => OpenFolder(FolderPath))
     menuObj.SetIcon("Open Folder", "icons\openfolder.ico")
 
+	MyMenu.Add("Cancel", DoNothing)
+	MyMenu.SetIcon("Cancel","icons\cancel.ico")
+
 	menuObj.add
 	
 	; 1) create folder menu entries
@@ -88,4 +91,8 @@ HasVal(haystack, needle) {
         if (value = needle)
             return index
     return 0
+}
+
+DoNothing(*){
+	return
 }

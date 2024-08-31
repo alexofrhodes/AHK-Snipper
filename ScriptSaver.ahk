@@ -3,7 +3,7 @@
 #SingleInstance, Force
 SetKeyDelay, 50
 
-#Include, guiSaveRestore.ahk
+#Include, includes\guiSaveRestore.ahk
 
 ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,Maxthon3Cls_MainFrm,MozillaWindowClass,Slimjet_WidgetWin_1"
 LegacyBrowsers := "IEFrame,OperaWindowClass"
@@ -118,7 +118,7 @@ CreateGui(){
     Gui, Add, Button, ys-3  w24  gAddExtension  , +
     Gui, Add, Button, ys-3 w24  gRemoveExtension, -
 
-    IniRead, MyExtensions, %guiname%.ini, %guiname%, MyExtensions 
+    IniRead, MyExtensions, settings\%guiname%.ini, %guiname%, MyExtensions 
 
     Gui, Add, ListBox, w70 hwndhTargetExtension vTargetExtension xs section, %MyExtensions%
 
@@ -212,7 +212,7 @@ OpenFolder(){
 SaveSettings(){
     guiSave(,guiName)
     GuiControlGet, Value,,%MyExtensions%,List
-    IniWrite, Value, %guiName%.ini, %A_ScriptName%, MyExtensions
+    IniWrite, Value, settings\%guiName%.ini, %A_ScriptName%, MyExtensions
 }
 
 AddExtension(){
