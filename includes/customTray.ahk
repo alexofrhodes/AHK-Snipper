@@ -1,45 +1,25 @@
 
-
-SetupTray(){
-    I_Icon := A_ScriptDir "\icons\snippet.png" 
-    iF FileExist(I_Icon)
+SetupTray() {
+    I_Icon := A_ScriptDir "..\icons\snippet.png" 
+    if FileExist(I_Icon)
         TraySetIcon(I_Icon)
 
     Tray := A_TrayMenu
 
-	
-    Tray.Add("Github", FollowLink)            ; +BarBreak starts new column
-    Tray.SetIcon("Github","icons\github.ico")
+    links := { Github: "https://github.com/alexofrhodes/"
+             , YouTube: "https://www.youtube.com/channel/UC5QH3fn1zjx0aUjRER_rOjg"
+             , Blog: "https://alexofrhodes.github.io/"
+             , BuyMeACoffee: "https://www.buymeacoffee.com/AlexOfRhodes"
+             , Gmail: "mailto:anastasioualex@gmail.com?subject=" A_ScriptName "&body=Hi! I would like to talk about ..."
+            , }
 
-    Tray.Add("YouTube", FollowLink)
-    Tray.SetIcon("YouTube","icons\youtube.ico")
-
-    Tray.Add("Blog", FollowLink)   
-    Tray.SetIcon("Blog","icons\Blog.ico")
-
-    Tray.Add("Email", FollowLink)  
-    Tray.SetIcon("Email","icons\gmail.ico")
-
-    Tray.Add("BuyMeACoffee", FollowLink) 
-    Tray.SetIcon("BuyMeACoffee","icons\BuyMeACoffee.ico")
+    for name, url in links.ownprops() {
+        Tray.Add(name, FollowLink.Bind(url))
+        icon := A_ScriptDir "\icons\" name ".ico"
+        Tray.SetIcon(name, icon)
+    }
 }
 
- 
-FollowLink(ControlName, info, *){
-    f:=% "openLink" Controlname%, f()
-}
-OpenLinkGithub(*) {
-    run "https://github.com/alexofrhodes/" 
-}
-OpenLinkYoutube(*) {
-    run "https://www.youtube.com/channel/UC5QH3fn1zjx0aUjRER_rOjg"
-}
-OpenLinkBlog(*) {
-    run "https://alexofrhodes.github.io/"
-}
-OpenLinkBuyMeACoffee(*) {
-    run "https://www.buymeacoffee.com/AlexOfRhodes"
-}
-OpenLinkEmail(*){
-    Run "mailto:anastasioualex@gmail.com?subject=" A_ScriptName "&body=Hi! I would like to talk about ..."
+FollowLink(url) {
+    Run url
 }

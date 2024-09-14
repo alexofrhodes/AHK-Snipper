@@ -6,7 +6,7 @@ global extensions := ["txt"]
 
 #Include includes\customTray.ahk
 
-#Include includes/FolderStructure.ahk
+#Include includes\FolderStructure.ahk
 Tray := A_TrayMenu
 Tray.Add()  ; Creates a separator line.
 for k,v in ["CTRL x2`tShow Menu",

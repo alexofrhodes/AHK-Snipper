@@ -7,6 +7,8 @@
 ; - HandlerFunctionName: the name of the function to be called when the menu entry is selected
 ; returns a list of all file paths within the folder, separated by `n
 
+;//TODO Save to new folder
+
 AddFolderStructureToMenu(menuObj, FolderPath, extensions, HandlerFunctionName) {
 	Local i := 0, FolderList := "", FileList := "", PathList := "", iconIndex := 0
 
@@ -14,12 +16,16 @@ AddFolderStructureToMenu(menuObj, FolderPath, extensions, HandlerFunctionName) {
     menuObj.Add("Save Selection", (*) => SaveSelection(FolderPath))
     menuObj.SetIcon("Save Selection", "icons\clip.ico")
 	
+    menuObj.Add("Save to New Folder", (*) => SaveSelectionToNewFolder(FolderPath))
+    menuObj.SetIcon("Save to New Folder", "icons\clipNew.ico")
+
+	
     ; Add button to open folder
     menuObj.Add("Open Folder", (*) => OpenFolder(FolderPath))
     menuObj.SetIcon("Open Folder", "icons\openfolder.ico")
 
-	MyMenu.Add("Cancel", DoNothing)
-	MyMenu.SetIcon("Cancel","icons\cancel.ico")
+	menuObj.Add("Cancel", DoNothing)
+	menuObj.SetIcon("Cancel","icons\cancel.ico")
 
 	menuObj.add
 	
@@ -80,6 +86,43 @@ SaveSelection(folderPath, *) {
 	if IB.Result = "Ok"
         FileAppend(text, folderPath "\" IB.Value)
 
+    A_Clipboard := tmp
+}
+
+SaveSelectionToNewFolder(folderPath,  *) {
+    ; Get the folder path from user
+    ib := InputBox("Folder Selection", "Enter the new folder name:", , "")
+
+    ; Exit if no folder path is provided
+    if ib.Result = ""
+        return
+	NewFolderPath := folderPath "\" ib.Value
+    ; Create the folder if it doesn't exist
+    if !DirExist(NewFolderPath)
+        DirCreate(NewFolderPath)
+
+    ; If folder creation failed, return
+    if !DirExist(NewFolderPath)
+        return
+	ib := ""
+    ; Get the filename from user
+    ib := InputBox("(filename.extension)", "Save As", , A_Now ".txt")
+
+    ; Exit if no file name is provided
+    if ib.Result != "Ok" || ib.Value = ""
+        return
+
+    ; Copy the selected text to clipboard
+    tmp := A_Clipboard
+    A_Clipboard := ""
+    Send("^c") ; Simulate Ctrl+C to copy
+    Sleep(100)
+    text := "`n" A_Clipboard
+
+    ; Append text to the file
+    FileAppend(text, NewFolderPath "\" ib.Value)
+
+    ; Restore the original clipboard content
     A_Clipboard := tmp
 }
 
