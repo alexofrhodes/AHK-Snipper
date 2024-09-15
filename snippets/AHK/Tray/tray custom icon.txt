@@ -1,7 +1,3 @@
-﻿ SAVED FROM : ScriptSave.ahk - Script Saver - Visual Studio Code 
-
-
-; Custom Tray Icon
-I_Icon = %guiName%.ico
-IfExist, %I_Icon%
-    Menu, Tray, Icon, %I_Icon%
+﻿TrayIcon := StrReplace("settings\" . A_ScriptName, ".ahk", ".ico")
+try
+    menu, tray, icon, %TrayIcon%

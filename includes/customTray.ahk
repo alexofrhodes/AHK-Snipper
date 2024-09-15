@@ -1,6 +1,6 @@
 
 SetupTray() {
-    I_Icon := A_ScriptDir "..\icons\snippet.png" 
+    I_Icon := StrReplace(A_ScriptDir "\icons\" . A_ScriptName, ".ahk", ".ico")
     if FileExist(I_Icon)
         TraySetIcon(I_Icon)
 
